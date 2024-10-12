@@ -35,8 +35,8 @@
 
       <div class="text-right mt-4">
         <RouterLink
-          to="/"
-          class="bg-primary text-white rounded px-4 py-3 lg:hover:bg-secondary-text transition"
+          :to="investment.name.split(' ').join('-').toLowerCase()"
+          class="bg-primary text-white rounded px-4 py-3 lg:hover:shadow-lg transition"
           >Learn More
           <span class="sr-only" aria-hidden="false">about {{ investment.name }}</span></RouterLink
         >
@@ -58,7 +58,7 @@ onMounted(async () => {
 })
 </script>
 
-<style lang="css" scoped>
+<style lang="postcss" scoped>
 .investment-detail {
   @apply flex justify-between gap-4;
 }

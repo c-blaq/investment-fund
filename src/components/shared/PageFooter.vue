@@ -1,6 +1,6 @@
 <template>
   <footer class="border-t p-5 lg:px-10">
-    <div class="flex flex-wrap justify-between items-center gap-5 text-sm">
+    <div class="section-container flex flex-wrap justify-between items-center gap-5 text-sm">
       <p>&copy; 2023 - Fathi</p>
 
       <div class="flex space-x-4">

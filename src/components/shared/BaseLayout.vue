@@ -4,7 +4,7 @@
       Header
     </header>
 
-    <main class="flex-1 py-10 px-5 lg:px-10">
+    <main class="flex-1 py-10 px-5 lg:py-20 lg:px-10">
       <slot />
     </main>
     <Footer />
