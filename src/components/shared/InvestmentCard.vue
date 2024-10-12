@@ -16,8 +16,8 @@
       <div class="text-sm lg:text-base capitalize space-y-4 flex-1 my-6">
         <div class="investment-detail">
           <span class="font-semibold whitespace-nowrap">Returns:</span>
-          <span :class="investment.returns > 0 ? 'text-green-600 font-medium' : 'text-red-600'">
-            {{ Number(investment.returns).toFixed(2) }}%
+          <span :class="Number(investment.returns) > 0 ? 'text-green-600' : 'text-red-600'">
+            {{ (100 * Number(investment.returns)).toFixed(2) }}%
           </span>
         </div>
 
@@ -26,10 +26,18 @@
           <span class="text-right">{{ investment.fund_manager }}</span>
         </div>
         <p class="investment-detail">
-          <span class="font-semibold whitespace-nowrap">risk level:</span> {{ investment.risk }}
+          <span class="font-semibold whitespace-nowrap">risk level:</span>
+          {{
+            investment.risk == 1
+              ? 'Conservative'
+              : investment.risk == 2
+                ? 'Moderate'
+                : 'Conservative'
+          }}
         </p>
         <p class="investment-detail">
-          <span class="font-semibold whitespace-nowrap">asset type:</span> {{ investment.fundtype }}
+          <span class="font-semibold whitespace-nowrap">asset type:</span>
+          {{ investment.fundtype == 1 && 'mutual fund' }}
         </p>
       </div>
 

@@ -22,7 +22,12 @@
 
         <div class="my-8 text-gray-600">
           <h2 class="text-sm md:text-base">Annual Returns</h2>
-          <span class="text-green-600 font-semibold text-2xl">
+          <span
+            :class="[
+              'font-semibold text-2xl',
+              Number(InvestmentFundDetail.returns) > 0 ? 'text-green-600' : 'text-red-600'
+            ]"
+          >
             {{ (100 * Number(InvestmentFundDetail.returns)).toFixed(2) }}%
           </span>
         </div>
@@ -35,7 +40,12 @@
             :key="performance.fund_id"
           >
             <span>{{ performance.year }}</span>
-            <span class="text-green-600 font-semibold">
+            <span
+              :class="[
+                'text-green-600 font-semibold',
+                Number(performance.annual_return) > 0 ? 'text-green-600' : 'text-red-600'
+              ]"
+            >
               {{ (100 * Number(performance.annual_return)).toFixed(2) }}%
             </span>
           </div>
