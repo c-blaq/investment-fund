@@ -1,7 +1,12 @@
 <script setup lang="ts">
 import BaseLayout from '@/components/shared/BaseLayout.vue'
 import InvestmentCard from '@/components/shared/InvestmentCard.vue'
-import { RouterLink } from 'vue-router'
+import { useInvestmentFundStore } from '@/stores/investment'
+
+const investmentFundStore = useInvestmentFundStore()
+
+// fetch investment funds
+investmentFundStore.getInvestmentFunds()
 </script>
 
 <template>
@@ -24,6 +29,12 @@ import { RouterLink } from 'vue-router'
         </div>
       </div>
     </section>
-    <InvestmentCard />
+
+    <section class="section-container py-10 lg:py-20">
+      <div v-if="!investmentFundStore.investmentFunds" class="text-center">Loading</div>
+      <div v-else class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-10">
+        <InvestmentCard :investment-fund="investmentFundStore.investmentFunds" />
+      </div>
+    </section>
   </BaseLayout>
 </template>
