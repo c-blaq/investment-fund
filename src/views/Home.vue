@@ -3,7 +3,7 @@ import BaseLayout from '@/components/shared/BaseLayout.vue'
 import InvestmentCard from '@/components/shared/InvestmentCard.vue'
 import Filter from '@/components/home/Filter.vue'
 import { useInvestmentFundStore } from '@/stores/investment'
-import { watch, computed, onMounted } from 'vue'
+import { onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 
 const investmentFundStore = useInvestmentFundStore()
@@ -22,7 +22,6 @@ onMounted(() => {
   investmentFundStore.getInvestmentFunds()
 
   const riskLevel = riskLevelMap[route.query.riskLevel as string] || 0
-  console.log(riskLevel)
   investmentFundStore.setRiskLevel(riskLevel)
 })
 </script>
@@ -30,16 +29,16 @@ onMounted(() => {
 <template>
   <BaseLayout>
     <section
-      className="min-h-[50vh] flex items-center px-5 lg:px-20 bg-black/40 bg-[url('/images/3DChart.jpeg')] bg-no-repeat bg-cover bg-center bg-blend-overlay"
+      class="min-h-[50vh] flex items-center px-5 lg:px-20 bg-black/40 bg-[url('/images/3DChart.jpeg')] bg-no-repeat bg-cover bg-center bg-blend-overlay"
     >
-      <div className="max-w-3xl text-center mx-auto">
+      <div class="max-w-3xl text-center mx-auto">
         <h1
-          className="text-white text-2xl sm:text-4xl lg:text-5xl mb-6 font-semibold sm:leading-[56px]"
+          class="text-white text-2xl sm:text-4xl lg:text-5xl mb-6 font-semibold sm:leading-[56px]"
         >
           Discover Top Investment Funds
         </h1>
 
-        <div className="text-sm sm:text-base lg:text-lg text-white/90">
+        <div class="text-sm sm:text-base lg:text-lg text-white/90">
           <p>
             Browse a variety of funds and explore details on returns, asset types, and risk levels
             to find the right fit for your needs

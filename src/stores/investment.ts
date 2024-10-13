@@ -22,7 +22,7 @@ export const useInvestmentFundStore = defineStore('investmentFunds', {
           )
         }
       } catch (err) {
-        alert('Something went wrong!')
+        window.location.replace('/error')
       }
     },
     setRiskLevel(val: number) {
