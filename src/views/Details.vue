@@ -1,22 +1,24 @@
 <template>
   <BaseLayout>
     <div
-      v-if="InvestmentFundDetail"
+      v-if="investmentFundStore.investmentFundDetail"
       class="section-container flex flex-col lg:flex-row items-center gap-10 py-10 lg:py-20"
     >
       <div class="flex-1 w-full">
         <div class="flex gap-5 md:gap-6 items-center">
           <img
-            :src="InvestmentFundDetail.logo"
-            :alt="InvestmentFundDetail.name + 'logo'"
+            :src="investmentFundStore.investmentFundDetail.logo"
+            :alt="investmentFundStore.investmentFundDetail.name + 'logo'"
             class="w-10 h-10 lg:w-16 lg:h-16 object-contain"
           />
 
           <div>
             <h1 class="font-bold text-lg md:text-xl lg:text-4xl mb-1">
-              {{ InvestmentFundDetail.name }}
+              {{ investmentFundStore.investmentFundDetail.name }}
             </h1>
-            <span class="text-gray-500 text-sm">{{ InvestmentFundDetail.fund_manager }}</span>
+            <span class="text-gray-500 text-sm">{{
+              investmentFundStore.investmentFundDetail.fund_manager
+            }}</span>
           </div>
         </div>
 
@@ -25,18 +27,23 @@
           <span
             :class="[
               'font-semibold text-2xl',
-              Number(InvestmentFundDetail.returns) > 0 ? 'text-green-600' : 'text-red-600'
+              Number(investmentFundStore.investmentFundDetail.returns) > 0
+                ? 'text-green-600'
+                : 'text-red-600'
             ]"
           >
-            {{ (100 * Number(InvestmentFundDetail.returns)).toFixed(2) }}%
+            {{ (100 * Number(investmentFundStore.investmentFundDetail.returns)).toFixed(2) }}%
           </span>
         </div>
 
-        <div v-if="InvestmentFundDetail.performance.length > 0" class="text-gray-600">
+        <div
+          v-if="investmentFundStore.investmentFundDetail?.performance?.length > 0"
+          class="text-gray-600"
+        >
           <h2 class="text-sm md:text-base">Performance</h2>
           <div
             class="flex justify-between gap-4 py-4 text-sm sm:text-base md:text-lg border-b"
-            v-for="performance in InvestmentFundDetail.performance"
+            v-for="performance in investmentFundStore.investmentFundDetail.performance"
             :key="performance.fund_id"
           >
             <span>{{ performance.year }}</span>
@@ -51,9 +58,9 @@
           </div>
         </div>
 
-        <div v-if="InvestmentFundDetail.prospectus" class="pt-10">
+        <div v-if="investmentFundStore.investmentFundDetail.prospectus" class="pt-10">
           <a
-            :href="InvestmentFundDetail.prospectus"
+            :href="investmentFundStore.investmentFundDetail.prospectus"
             target="_blank"
             rel="noopener noreferrer"
             title="opens in a new tab"
@@ -70,20 +77,20 @@
         <h3 className="font-semibold sm:text-xl">Key Information</h3>
         <div className="investment-detail mt-6">
           <h3>Descripton</h3>
-          <span>{{ InvestmentFundDetail.description }}</span>
+          <span>{{ investmentFundStore.investmentFundDetail.description }}</span>
         </div>
 
         <div className="investment-detail mt-6">
           <h3>Custodian</h3>
-          <span>{{ InvestmentFundDetail.custodian }}</span>
+          <span>{{ investmentFundStore.investmentFundDetail.custodian }}</span>
         </div>
 
         <div className="investment-detail mt-6">
           <h3>Risk level</h3>
           <span>{{
-            InvestmentFundDetail.risk == 1
+            investmentFundStore.investmentFundDetail.risk == 1
               ? 'Conservative'
-              : InvestmentFundDetail.risk == 2
+              : investmentFundStore.investmentFundDetail.risk == 2
                 ? 'Moderate'
                 : 'Conservative'
           }}</span>
@@ -92,7 +99,7 @@
         <div className="investment-detail mt-6">
           <h3>use of funds</h3>
           <span className="">
-            {{ formatAmount(InvestmentFundDetail.size_in_kobo / 100) ?? 0 }}
+            {{ formatAmount(investmentFundStore.investmentFundDetail.size_in_kobo / 100) ?? 0 }}
           </span>
         </div>
 
@@ -100,7 +107,7 @@
           <h3>fund composition</h3>
           <span
             className="block mb-2"
-            v-for="(value, key) in InvestmentFundDetail.composition"
+            v-for="(value, key) in investmentFundStore.investmentFundDetail.composition"
             :key="key"
           >
             {{ key }} : {{ value }}%
@@ -112,28 +119,28 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
+import { onMounted, watch } from 'vue'
 import { useRoute } from 'vue-router'
 
 import BaseLayout from '@/components/shared/BaseLayout.vue'
 import formatAmount from '@/utils/formatAmount'
+import { useInvestmentFundStore } from '@/stores/investment'
 
 const route = useRoute()
-const InvestmentFundDetail = ref()
+const investmentFundStore = useInvestmentFundStore()
 
-onMounted(async () => {
-  const response = await fetch('https://dashboard.cowrywise.com/api/v2/funds/public/')
-
-  const { data } = await response.json()
-  const d = data?.find(
-    (detail: any) => detail.name.split(' ').join('-').toLowerCase() === route.params.investmentName
-  )
-
-  if (d) {
-    InvestmentFundDetail.value = d
-    return
-  }
+// fetch investment funds
+onMounted(() => {
+  const fundName = route.params.investmentName as string
+  investmentFundStore.getInvestmentFunds(fundName)
 })
+
+watch(
+  () => route.params.investmentName as string,
+  (newName) => {
+    investmentFundStore.getInvestmentFunds(newName)
+  }
+)
 </script>
 
 <style lang="postcss" scoped>

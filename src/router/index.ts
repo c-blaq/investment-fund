@@ -15,7 +15,10 @@ const router = createRouter({
       name: 'investment-details',
       component: DetailsView
     }
-  ]
+  ],
+  scrollBehavior() {
+    return { top: 0, behavior: 'smooth' }
+  }
 })
 
 export default router
