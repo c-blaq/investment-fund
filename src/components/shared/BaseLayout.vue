@@ -1,7 +1,9 @@
 <template>
   <div class="flex flex-col min-h-screen">
     <header class="px-5 lg:px-10 h-16 shadow-sm flex items-center justify-center font-bold">
-      Header
+      <RouterLink to="/" class="text-primary font-semibold text-lg hover:text-primary/50 transition"
+        >Home</RouterLink
+      >
     </header>
 
     <main class="flex-1">

@@ -5,6 +5,7 @@ import Filter from '@/components/home/Filter.vue'
 import { useInvestmentFundStore } from '@/stores/investment'
 import { onMounted } from 'vue'
 import { useRoute } from 'vue-router'
+import Loader from '@/components/shared/Loader.vue'
 
 const investmentFundStore = useInvestmentFundStore()
 const route = useRoute()
@@ -48,7 +49,9 @@ onMounted(() => {
     </section>
 
     <section class="section-container py-10 lg:py-20">
-      <div v-if="!investmentFundStore.investmentFunds" class="text-center">Loading</div>
+      <div v-if="!investmentFundStore.investmentFunds" class="flex justify-center">
+        <Loader />
+      </div>
 
       <div v-else>
         <Filter />
