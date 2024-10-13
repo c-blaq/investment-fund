@@ -1,12 +1,30 @@
 <script setup lang="ts">
 import BaseLayout from '@/components/shared/BaseLayout.vue'
 import InvestmentCard from '@/components/shared/InvestmentCard.vue'
+import Filter from '@/components/home/Filter.vue'
 import { useInvestmentFundStore } from '@/stores/investment'
+import { watch, computed, onMounted } from 'vue'
+import { useRoute } from 'vue-router'
 
 const investmentFundStore = useInvestmentFundStore()
+const route = useRoute()
 
-// fetch investment funds
-investmentFundStore.getInvestmentFunds()
+// created this so as to get the number equivalent of the risk level param
+const riskLevelMap: { [key: string]: number } = {
+  All: 0,
+  Conservative: 1,
+  Moderate: 2,
+  Growth: 3
+}
+
+// Fetch investment funds
+onMounted(() => {
+  investmentFundStore.getInvestmentFunds()
+
+  const riskLevel = riskLevelMap[route.query.riskLevel as string] || 0
+  console.log(riskLevel)
+  investmentFundStore.setRiskLevel(riskLevel)
+})
 </script>
 
 <template>
@@ -32,8 +50,16 @@ investmentFundStore.getInvestmentFunds()
 
     <section class="section-container py-10 lg:py-20">
       <div v-if="!investmentFundStore.investmentFunds" class="text-center">Loading</div>
-      <div v-else class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-10">
-        <InvestmentCard :investment-fund="investmentFundStore.investmentFunds" />
+
+      <div v-else>
+        <Filter />
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-10">
+          <InvestmentCard
+            v-for="investment in investmentFundStore.filteredFunds"
+            :investment-fund="investment"
+            :key="investment.id"
+          />
+        </div>
       </div>
     </section>
   </BaseLayout>

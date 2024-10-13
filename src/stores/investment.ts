@@ -5,7 +5,7 @@ export const useInvestmentFundStore = defineStore('investmentFunds', {
   state: () => ({
     investmentFunds: null as TInvestment[] | null,
     investmentFundDetail: null as TInvestment | null,
-    p: ''
+    riskLevel: 0
   }),
 
   actions: {
@@ -24,6 +24,18 @@ export const useInvestmentFundStore = defineStore('investmentFunds', {
       } catch (err) {
         alert('Something went wrong!')
       }
+    },
+    setRiskLevel(val: number) {
+      this.riskLevel = val
+    }
+  },
+
+  getters: {
+    filteredFunds(state) {
+      if (state.riskLevel == 0) {
+        return state.investmentFunds // Show all funds if no risk level is selected
+      }
+      return state.investmentFunds?.filter((fund) => fund.risk === state.riskLevel)
     }
   }
 })
