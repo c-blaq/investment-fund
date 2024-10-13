@@ -1,8 +1,11 @@
 <template>
-  <div class="section-container grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-10">
+  <section
+    id="investment-funds"
+    class="section-container grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-10 py-10 lg:py-20"
+  >
     <div
       v-for="investment in Investments"
-      class="bg-white border rounded-md px-5 py-10 shadow flex flex-col"
+      class="bg-white border rounded-lg px-5 py-10 shadow flex flex-col"
     >
       <div class="flex space-x-2 md:space-x-4 items-center">
         <img
@@ -13,20 +16,25 @@
         <h2 class="font-bold text-base lg:text-lg">{{ investment.name }}</h2>
       </div>
 
-      <div class="text-sm lg:text-base capitalize space-y-4 flex-1 my-6">
+      <div class="text-sm lg:text-base capitalize flex-1 my-6 text-gray-600">
         <div class="investment-detail">
-          <span class="font-semibold whitespace-nowrap">Returns:</span>
-          <span :class="Number(investment.returns) > 0 ? 'text-green-600' : 'text-red-600'">
+          <span class="whitespace-nowrap">Returns:</span>
+          <span
+            :class="[
+              'font-semibold',
+              Number(investment.returns) > 0 ? 'text-green-600' : 'text-red-600'
+            ]"
+          >
             {{ (100 * Number(investment.returns)).toFixed(2) }}%
           </span>
         </div>
 
         <div class="investment-detail">
-          <span class="font-semibold whitespace-">Fund manager:</span>
+          <span>Fund manager:</span>
           <span class="text-right">{{ investment.fund_manager }}</span>
         </div>
         <p class="investment-detail">
-          <span class="font-semibold whitespace-nowrap">risk level:</span>
+          <span class="whitespace-nowrap">risk level:</span>
           {{
             investment.risk == 1
               ? 'Conservative'
@@ -36,7 +44,7 @@
           }}
         </p>
         <p class="investment-detail">
-          <span class="font-semibold whitespace-nowrap">asset type:</span>
+          <span class="whitespace-nowrap">asset type:</span>
           {{ investment.fundtype == 1 && 'mutual fund' }}
         </p>
       </div>
@@ -50,7 +58,7 @@
         >
       </div>
     </div>
-  </div>
+  </section>
 </template>
 
 <script setup lang="ts">
@@ -68,6 +76,6 @@ onMounted(async () => {
 
 <style lang="postcss" scoped>
 .investment-detail {
-  @apply flex justify-between gap-4;
+  @apply flex justify-between gap-4 border-b py-3;
 }
 </style>

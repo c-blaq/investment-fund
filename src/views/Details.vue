@@ -2,7 +2,7 @@
   <BaseLayout>
     <div
       v-if="InvestmentFundDetail"
-      class="section-container flex flex-col lg:flex-row items-center gap-10"
+      class="section-container flex flex-col lg:flex-row items-center gap-10 py-10 lg:py-20"
     >
       <div class="flex-1 w-full">
         <div class="flex gap-5 md:gap-6 items-center">
