@@ -13,12 +13,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted } from 'vue'
 import { useRouter } from 'vue-router'
-
-onMounted(() => {
-  window.history.replaceState(null, '', window.location.href)
-})
 
 const router = useRouter()
 </script>

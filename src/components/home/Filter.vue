@@ -2,6 +2,8 @@
   <div class="relative mb-5">
     <button
       @click="handleToggleFilterDropdown"
+      :aria-expanded="toggleFilterDropdown"
+      aria-controls="filterDropdown"
       class="flex ml-auto justify-between rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-secondary-text hover:text-white focus:outline-none"
     >
       {{ selectedRisk ?? 'Select Risk Level' }}
@@ -22,16 +24,17 @@
 
     <div
       v-if="toggleFilterDropdown"
+      id="filterDropdown"
       class="absolute right-0 z-10 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5"
     >
       <div class="py-1">
         <div v-for="level in riskLevels" key="level">
-          <button
-            @click.prevent="selectRisk(level)"
+          <buttin
+            @click="selectRisk(level)"
             class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-secondary-text hover:text-white cursor-pointer"
           >
             {{ level.label }}
-          </button>
+          </buttin>
         </div>
       </div>
     </div>
@@ -40,10 +43,15 @@
 
 <script setup lang="ts">
 import { useInvestmentFundStore } from '@/stores/investment'
-import { ref, defineEmits } from 'vue'
+import { ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 
-const riskLevels = [
+interface IRiskLevel {
+  value: number
+  label: string
+}
+
+const riskLevels: IRiskLevel[] = [
   { value: 0, label: 'All' },
   { value: 1, label: 'Conservative' },
   { value: 2, label: 'Moderate' },
@@ -55,13 +63,10 @@ const router = useRouter()
 const investmentFundStore = useInvestmentFundStore()
 const selectedRisk = ref(route.query.riskLevel)
 const toggleFilterDropdown = ref(false)
-const emit = defineEmits<{
-  (e: 'change', value: string): void
-}>()
 
 const handleToggleFilterDropdown = () => (toggleFilterDropdown.value = !toggleFilterDropdown.value)
 
-const selectRisk = (level: any) => {
+const selectRisk = (level: IRiskLevel) => {
   selectedRisk.value = level.label
   toggleFilterDropdown.value = false
 

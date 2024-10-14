@@ -33,7 +33,7 @@ export const useInvestmentFundStore = defineStore('investmentFunds', {
   getters: {
     filteredFunds(state) {
       if (state.riskLevel == 0) {
-        return state.investmentFunds // Show all funds if no risk level is selected
+        return state.investmentFunds
       }
       return state.investmentFunds?.filter((fund) => fund.risk === state.riskLevel)
     }

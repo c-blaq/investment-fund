@@ -1,10 +1,11 @@
 <script setup lang="ts">
+import { onMounted } from 'vue'
+import { useRoute } from 'vue-router'
+
 import BaseLayout from '@/components/shared/BaseLayout.vue'
 import InvestmentCard from '@/components/shared/InvestmentCard.vue'
 import Filter from '@/components/home/Filter.vue'
 import { useInvestmentFundStore } from '@/stores/investment'
-import { onMounted } from 'vue'
-import { useRoute } from 'vue-router'
 import Loader from '@/components/shared/Loader.vue'
 
 const investmentFundStore = useInvestmentFundStore()

@@ -2,9 +2,10 @@
   <BaseLayout>
     <section class="section-container py-10 lg:py-20">
       <!-- breadcrumb -->
-      <div class="mb-5">
-        <RouterLink to="/" class="text-[#101052] hover:text-primary">Home</RouterLink> >
-        <span class="text-gray-500">{{
+      <div class="mb-5 space-x-3">
+        <RouterLink to="/" class="text-[#101052] hover:text-primary">Home</RouterLink>
+        <span>></span>
+        <span class="text-gray-500 capitalize">{{
           route.params.investmentName.toString().split('-').join(' ')
         }}</span>
       </div>
